@@ -74,18 +74,18 @@ def portBookToKindle(book_name):
 		encoders.encode_base64(p)
 		p.add_header('Content-Disposition', "attachment",filename=filename)
 		msg.attach(p)
-		s = smtplib.SMTP(SERVER_ADDRESS, SERVER_PORT)
-		s.starttls()
+		smtp_session = smtplib.SMTP(SERVER_ADDRESS, SERVER_PORT)
+		smtp_session.starttls()
 		#password=input("Please enter your email password || incase of two factor auth use generated app password from google");
 		print("Sending email with attachment....")
-		s.login(fromaddr, SENDER_APP_EMAIL_PASSWORD);
+		smtp_session.login(fromaddr, SENDER_APP_EMAIL_PASSWORD);
 		text = msg.as_string()
-		if s.sendmail(fromaddr, toaddr, text):
-			print("Email sent successfully!")
+		smtp_session.sendmail(fromaddr, toaddr, text):
+		print("Email sent successfully!")
 	except Exception as e:
 		print("Failed to send email...try again!",e)
 	finally:
-		s.quit()
+		smtp_session.quit()
 
 
 s = LibgenSearch()
@@ -110,8 +110,8 @@ temp_list = []
 
 table = Table("Index",title="-: Books found for the given keyword :-",box=box.DOUBLE,show_lines=True,highlight=True)
 #table.add_column("Index", justify="center", style="bright_yellow", no_wrap=True)
-table.add_column("Author", justify="left", style="red", no_wrap=False)
-table.add_column("Title", justify="left", style="green", no_wrap=True)
+table.add_column("Author", justify="left", style="red", no_wrap=True)
+table.add_column("Title", justify="left", style="green", no_wrap=False)
 table.add_column("File Size", justify="left", style="blue", no_wrap=True)
 table.add_column("File Extension", justify="left", style="magenta", no_wrap=True)
 
